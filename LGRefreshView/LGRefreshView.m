@@ -535,16 +535,16 @@ static UIColor *kLGRefreshViewTintColor;
 
                     CGFloat circleOutSize = kLGRefreshViewCircleOutSize * scale;
 
-                    _circleViewOut.frame = CGRectMake((self.frame.size.width-circleOutSize)/2, self.frame.size.height-circleOutSize/2+offsetY/2, circleOutSize, circleOutSize);
+                    _circleViewOut.frame = CGRectMake((self.frame.size.width-circleOutSize)/2, self.frame.size.height-circleOutSize/2+(_isBottomRefreshView ? offsetY : offsetY/2), circleOutSize, circleOutSize);
 
                     CGFloat circleInSize = kLGRefreshViewCircleInSize * scale;
 
-                    _circleViewIn.frame = CGRectMake((self.frame.size.width-circleInSize)/2, self.frame.size.height-circleInSize/2+offsetY/2, circleInSize, circleInSize);
+                    _circleViewIn.frame = CGRectMake((self.frame.size.width-circleInSize)/2, self.frame.size.height-circleInSize/2+(_isBottomRefreshView ? offsetY : offsetY/2), circleInSize, circleInSize);
                 }
                 else
                 {
-                    _circleViewOut.center = CGPointMake(self.frame.size.width/2, self.frame.size.height+offsetY/2);
-                    _circleViewIn.center = CGPointMake(self.frame.size.width/2, self.frame.size.height+offsetY/2);
+                    _circleViewOut.center = CGPointMake(self.frame.size.width/2, self.frame.size.height+(_isBottomRefreshView ? offsetY : offsetY/2));
+                    _circleViewIn.center = CGPointMake(self.frame.size.width/2, self.frame.size.height+(_isBottomRefreshView ? offsetY : offsetY/2));
 
                     if (_loadingView)
                         _loadingView.center = CGPointMake(self.frame.size.width/2, self.frame.size.height+offsetY/2);
@@ -552,8 +552,8 @@ static UIColor *kLGRefreshViewTintColor;
             }
             else
             {
-                _circleViewOut.center = CGPointMake(self.frame.size.width/2, self.frame.size.height+offsetY/2);
-                _circleViewIn.center = CGPointMake(self.frame.size.width/2, self.frame.size.height+offsetY/2);
+                _circleViewOut.center = CGPointMake(self.frame.size.width/2, self.frame.size.height+(_isBottomRefreshView ? offsetY : offsetY/2));
+                _circleViewIn.center = CGPointMake(self.frame.size.width/2, self.frame.size.height+(_isBottomRefreshView ? offsetY : offsetY/2));
 
                 if (_loadingView)
                     _loadingView.center = CGPointMake(self.frame.size.width/2, self.frame.size.height+offsetY/2);
