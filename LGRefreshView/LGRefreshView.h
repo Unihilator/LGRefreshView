@@ -49,6 +49,7 @@ static NSString *const kLGRefreshViewEndRefreshingNotification   = @"LGRefreshVi
 @property (strong, nonatomic) UIColor                             *tintColor;
 @property (assign, nonatomic) CGFloat                             offsetY;
 @property (assign, nonatomic) UIView                              *loadingView;
+@property (weak, nonatomic, readonly) UIView *bottomView;
 
 /** Do not forget about weak referens to self */
 @property (strong, nonatomic) void (^refreshHandler)(LGRefreshView *refreshView);
