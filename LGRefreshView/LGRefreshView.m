@@ -36,6 +36,7 @@
 #define kLGRefreshViewCircleOutMaxProgress      (_loadingView ? 1.f : 0.93)
 #define kLGRefreshViewCircleInMaxProgress       (_loadingView ? 1.f : 0.9)
 #define kLGRefreshViewHeight                    64.f
+#define kLGRefreshViewSecondHeight              50.f
 #define kLGRefreshViewCircleOutSize             (kLGRefreshViewHeight * 0.5)
 #define kLGRefreshViewCircleInSize              (kLGRefreshViewHeight * 0.3)
 #define kLGRefreshViewCircleOutThicknessRatio   0.2
@@ -55,6 +56,7 @@ static UIColor *kLGRefreshViewTintColor;
 
 @property (assign, nonatomic) UIScrollView              *scrollView;
 @property (strong, nonatomic) UIView                    *backgroundView;
+@property (weak, nonatomic) UIView *bottomView;
 @property (strong, nonatomic) DACircularProgressView    *circleViewOut;
 @property (strong, nonatomic) DACircularProgressView    *circleViewIn;
 
@@ -62,6 +64,7 @@ static UIColor *kLGRefreshViewTintColor;
 /** 0.0 - 1.0 */
 @property (assign, nonatomic) CGFloat   timeOffset;
 @property (strong, nonatomic) NSDate    *beginUpdatingDate;
+@property (nonatomic, assign) BOOL isBottomRefreshView;
 
 @end
 
@@ -111,6 +114,11 @@ static UIColor *kLGRefreshViewTintColor;
             [_loadingView removeFromSuperview];
             [self addSubview:_loadingView];
         }
+        UIView *bottomView = [[UIView alloc] init];
+        bottomView.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+        bottomView.backgroundColor = [UIColor redColor];
+        [self addSubview:bottomView];
+        self.bottomView = bottomView;
 
         [_scrollView insertSubview:self atIndex:0];
 
@@ -122,6 +130,16 @@ static UIColor *kLGRefreshViewTintColor;
 + (instancetype)refreshViewWithScrollView:(UIScrollView *)scrollView
 {
     return [[self alloc] initWithScrollView:scrollView];
+}
+
++ (instancetype)refreshViewWithScrollView:(UIScrollView *)scrollView addedBottomRefreshView:(BOOL)isBottomRefreshView {
+    LGRefreshView *view = [[self alloc] initWithScrollView:scrollView];
+    view.isBottomRefreshView = isBottomRefreshView;
+    // Sorry, complete code
+    if (!isBottomRefreshView) {
+        [view.bottomView removeFromSuperview];
+    }
+    return view;
 }
 
 #pragma mark -
@@ -274,13 +292,17 @@ static UIColor *kLGRefreshViewTintColor;
 {
     if (self.superview)
     {
-        CGRect selfFrame = CGRectMake(0.f, -kLGRefreshViewHeight+_offsetY, _scrollView.frame.size.width, kLGRefreshViewHeight);
+        CGRect selfFrame = CGRectMake(0.f, -kLGRefreshViewHeight -(_isBottomRefreshView ? kLGRefreshViewSecondHeight : 0) +_offsetY, _scrollView.frame.size.width, kLGRefreshViewHeight);
         if ([UIScreen mainScreen].scale == 1.f)
             selfFrame = CGRectIntegral(selfFrame);
         self.frame = selfFrame;
-
+        
+        if (_bottomView) {
+            _bottomView.frame = CGRectMake(0.f, kLGRefreshViewHeight, self.frame.size.width, self.frame.size.height);
+        }
+        
         if (_backgroundView)
-            _backgroundView.frame = CGRectMake(0.f, self.frame.size.height-kLGRefreshViewMainScreenSideMax, self.frame.size.width, kLGRefreshViewMainScreenSideMax);
+            _backgroundView.frame = CGRectMake(0.f, self.frame.size.height-kLGRefreshViewMainScreenSideMax + (_isBottomRefreshView ? kLGRefreshViewSecondHeight : 0), self.frame.size.width, kLGRefreshViewMainScreenSideMax);
 
         CGRect circleFrame = CGRectMake((self.frame.size.width-kLGRefreshViewCircleOutSize)/2,
                                         (self.frame.size.height-kLGRefreshViewCircleOutSize)/2,

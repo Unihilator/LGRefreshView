@@ -56,6 +56,7 @@ static NSString *const kLGRefreshViewEndRefreshingNotification   = @"LGRefreshVi
 @property (assign, nonatomic) id<LGRefreshViewDelegate> delegate;
 
 - (instancetype)initWithScrollView:(UIScrollView *)scrollView;
++ (instancetype)refreshViewWithScrollView:(UIScrollView *)scrollView addedBottomRefreshView:(BOOL)isBottomRefreshView;
 + (instancetype)refreshViewWithScrollView:(UIScrollView *)scrollView;
 
 #pragma mark -
