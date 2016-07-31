@@ -292,7 +292,7 @@ static UIColor *kLGRefreshViewTintColor;
 {
     if (self.superview)
     {
-        CGRect selfFrame = CGRectMake(0.f, -kLGRefreshViewHeight -(_isBottomRefreshView ? kLGRefreshViewSecondHeight : 0) +_offsetY, _scrollView.frame.size.width, kLGRefreshViewHeight);
+        CGRect selfFrame = CGRectMake(0.f, -kLGRefreshViewHeight -(_isBottomRefreshView ? kLGRefreshViewSecondHeight : 0) +_offsetY, _scrollView.frame.size.width, kLGRefreshViewHeight + (_isBottomRefreshView ? kLGRefreshViewSecondHeight : 0));
         if ([UIScreen mainScreen].scale == 1.f)
             selfFrame = CGRectIntegral(selfFrame);
         self.frame = selfFrame;
