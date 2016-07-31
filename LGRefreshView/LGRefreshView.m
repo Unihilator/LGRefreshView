@@ -298,7 +298,7 @@ static UIColor *kLGRefreshViewTintColor;
         self.frame = selfFrame;
         
         if (_bottomView) {
-            _bottomView.frame = CGRectMake(0.f, kLGRefreshViewHeight, self.frame.size.width, self.frame.size.height);
+            _bottomView.frame = CGRectMake(0.f, kLGRefreshViewHeight, self.frame.size.width, kLGRefreshViewSecondHeight);
         }
         
         if (_backgroundView)
